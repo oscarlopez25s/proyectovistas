@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MAPA - Centros cercanos</title>
+        <link rel="stylesheet" href="css/estilomapa.css">
+    </head>
+    <body>
+        <header>
+            <div class="logo"><span>⊞</span> Orienta</div>
+            <nav>
+                <a href="Inicio.html" >Inicio</a>
+                <a href="Mapa.html"class="activo">Mapa</a>
+                <a href="Perfil.html">Perfil</a>
+                <div class="avatar" title="Mi perfil">👤</div>
+            </nav>
+        </header>
+        <div class="top-section">
+            <div>
+                <h1>MAPA Centros cercanos </h1>
+                <p class="sub">Encuentra los centros más cercanos a tu ubicación actual</p>
+            </div>
+            <div class="buscador">
+                <span>🔍</span>
+                <input type="text" id="buscar" placeholder="Buscar por nombre, dirección o servicio..."
+                oninput="filtrar()">
+            </div>
+        </div>
+        <div class="mapa-wrap">
+            <div class="mapa" id="mapa">
+                <!-- Calles decorativas -->
+                <div class="calle" style="width: 100%; height: 10px; top: 45%; left: 0;"></div>
+                <div class="calle" style="width: 10px; height: 100%; left: 35%; top: 0;"></div>
+                <div class="calle" style="width: 100%; height: 8px; top: 70%; left: 0; transform:
+                rotate(-2deg);"></div>
+                <span class="calle-nombre" style="top: 18%; left: 52%;">Av. Reforma</span>
+                <span class="calle-nombre" style="bottom: 12%; left: 35%;">Calle Juárez</span>
+                <!-- Pin Norte -->
+                <div class="pin" id="pin-norte" style="top: 18%; left: 28%;" onclick="seleccionar('norte')">
+                    <div class="pin-icon">📍</div>
+                    <div class="pin-label">📍 Centro Comunitario Norte</div>
+                </div>
+                <!-- Pin pequeño extra -->
+                <div class="pin" style="top: 48%; left: 12%; opacity: 0.8;" onclick="alert('Otro centro cercano')">
+                    <div class="pin-icon" style="font-size:28px;">📍</div>
+                </div>
+                <!-- Pin Sur -->
+                <div class="pin" id="pin-sur" style="top: 58%; left: 58%;" onclick="seleccionar('sur')">
+                    <div class="pin-icon">📍</div>
+                    <div class="pin-label">📍 Centro de Salud Sur</div>
+                </div>
+                <div class="map-controls">
+                    <button class="map-btn" onclick="zoom(1)">+</button>
+                    <button class="map-btn" onclick="zoom(-1)">−</button>
+                </div>
+                <div class="compass" onclick="alert('Centrado en tu ubicación: Tala, Jalisco 📍')" title="Mi
+                ubicación">🧭</div>
+            </div>
+        </div>
+        <div class="cards" id="lista">
+            <div class="card azul" id="card-norte" data-text="centro comunitario norte av reforma 124
+                0.8 km" onclick="seleccionar('norte')">
+                <div class="card-top">
+                    <div class="card-icon">🏫</div>
+                    <div>
+                        h2>Centro Comunitario Norte</h2>
+                    <div class="dist">📍 0.8 km</div>
+                    </div>
+                </div>
+                <div class="badge-verde">Ambiente ahora</div>
+                <div class="direccion">🏠 Av Reforma 124</div>
+            </div>
+            <div class="card verde" id="card-sur" data-text="centro de salud sur calle juarez 58 1.2 km"
+                onclick="seleccionar('sur')">
+                <div class="card-top">
+                    <div class="card-icon">➕</div>
+                        <div>
+                        <h2>Centro de Salud Sur</h2>
+                        <div class="dist">📍 1.2 km</div>
+                    </div>
+                </div>
+                <div class="direccion">🏠 calle juarez 58</div>
+                <button class="btn-llegar" onclick="event.stopPropagation(); comoLlegar('Centro de Salud Sur', 'calle juarez 58')">📍 COMO LLEGAR</button>
+            </div>
+            <div class="no-result" id="noResult">No se encontraron centros 😕<br>Intenta buscar:
+            norte, sur, reforma o juarez</div>
+        </div>
+        <script>
+            let zoomLevel = 1;
+            function zoom(dir) {
+                zoomLevel = Math.max(0.8, Math.min(1.6, zoomLevel + dir * 0.15));
+                document.getElementById('mapa').style.transform = 'scale(' + zoomLevel + ')';
+                document.getElementById('mapa').style.transformOrigin = 'center center';
+                }
+            function seleccionar(cual) {
+                document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+                document.querySelectorAll('.pin').forEach(p => p.classList.remove('selected'));
+                document.getElementById('card-' + cual).classList.add('selected');
+                document.getElementById('pin-' + cual).classList.add('selected');
+                document.getElementById('card-' + cual).scrollIntoView({ behavior: 'smooth', block:
+                'center' });
+                }
+            function filtrar() {
+                const t = document.getElementById('buscar').value.toLowerCase().trim();
+                let visibles = 0;
+                document.querySelectorAll('.card').forEach(c => {
+                const ok = c.dataset.text.includes(t);
+                c.style.display = ok ? 'block' : 'none';
+                if (ok) visibles++;
+                });
+                document.getElementById('noResult').style.display = visibles === 0 ? 'block' : 'none';
+                // También filtra pines
+                document.getElementById('pin-norte').style.display = 'centro comunitario norte av reforma'.includes(t) || t === '' ? 'block' : 'none';
+                document.getElementById('pin-sur').style.display = 'centro de salud sur calle juarez'.includes(t) || t === '' ? 'block' : 'none';
+                }
+            function comoLlegar(nombre, dir) {
+                const url = 'https://www.google.com/maps/search/' + encodeURIComponent(nombre + ' ' +
+                dir);
+                if (confirm('¿Abrir Google Maps para llegar a ' + nombre + '?\n' + dir)) {
+                window.open(url, '_blank');
+                }
+                }
+        </script>
+    </body>
+</html>

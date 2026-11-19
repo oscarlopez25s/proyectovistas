@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Orienta - Bolsa de trabajo</title>
+        <link rel="stylesheet" href="css/estilodetalle.css">
+    </head>
+    <body>
+        <header>
+            <div class="logo"><span>⊞</span> Orienta</div>
+            <nav>
+            <a href="Inicio.html" class="activo">Inicio</a>
+            <a href="Mapa.html">Mapa</a>
+            <a href="Perfil.html">Perfil</a>
+            <div class="avatar">👤</div>
+            </nav>
+        </header>
+        <main>
+            <h1>Servicios comunitarios</h1>
+            <div class="card-perfil card-detalle">
+                <h2 class="titulo-detalle">Bolsa de trabajo</h2>
+                <div class="iconos-centro">
+                <div class="icono-circulo">💼</div>
+                <div class="icono-circulo">📋</div>
+            </div>
+            <p class="descripcion">
+            Oportunidades locales de empleo y apoyo para<br>
+            preparar tu CV y entrevistas de trabajo
+            </p>
+            <div class="info-grid">
+                <div class="info-item">
+                <div class="info-icono">🕐</div>
+                <div><h3>Horario</h3><p>lun-vie 9:00 a 18:00</p></div>
+            </div>
+            <div class="info-item">
+                <div class="info-icono">📍</div>
+                <div><h3>Ubicación</h3><p>Centro Comunitario Norte • 1.2 km</p></div>
+                </div>
+                </div>
+                <button class="btn-solicitar" onclick="abrirModal()">VER VACANTES</button>
+                <hr>
+                <p class="features">Vacantes locales ✓ &nbsp; Ayuda con CV ✓ &nbsp; Sin costo</p>
+            </div>
+            <a href="Inicio.html" class="volver">← Volver al Inicio</a>
+        </main>
+        <div class="modal" id="modal">
+            <div class="modal-box">
+            <h3>Bolsa de trabajo</h3>
+            <p>Elige el tipo de empleo que buscas. Te avisaremos de vacantes.</p>
+            <select id="tipo">
+                <option>Tiempo completo</option>
+                <option>Medio tiempo</option>
+                <option>Por temporada / Temporal</option>
+                <option>Prácticas / Primer empleo</option>
+            </select>
+            <input type="text" placeholder="¿Qué trabajo buscas? Ej. cajero, limpieza">
+            <input type="tel" placeholder="Teléfono / WhatsApp para contactarte">
+            <button class="btn-confirmar" onclick="confirmar('Bolsa de trabajo')">Ver vacantes</button>
+            <button class="btn-cerrar" onclick="cerrarModal()">Cancelar</button>
+            </div>
+        </div>
+        <script>
+            function abrirModal(){document.getElementById('modal').classList.add('open');}
+            function cerrarModal(){document.getElementById('modal').classList.remove('open');}
+            function confirmar(s){alert('✅ Listo\nServicio: '+s+'\nTe mostraremos las vacantes disponibles cerca de ti.');cerrarModal();}
+            document.getElementById('modal').addEventListener('click',e=>{if(e.target===e.currentTarget)cerrarModal();});
+        </script>
+    </body>
+</html>

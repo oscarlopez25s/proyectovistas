@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Orienta - Asistencia legal</title>
+        <link rel="stylesheet" href="css/estilodetalle.css">
+    </head>
+    <body>
+        <header>
+            <div class="logo"><span>⊞</span> Orienta</div>
+            <nav>
+                <a href="Inicio.html" class="activo">Inicio</a>
+                <a href="Mapa.html">Mapa</a>
+                <a href="Perfil.html">Perfil</a>
+                <div class="avatar">👤</div>
+            </nav>
+        </header>
+        <main>
+            <h1>Servicios comunitarios</h1>
+            <div class="card-perfil card-detalle">
+                <h2 class="titulo-detalle">Asistencia legal</h2>
+                <div class="iconos-centro">
+                <div class="icono-circulo">⚖️</div>
+                <div class="icono-circulo">📄</div>
+            </div>
+            <p class="descripcion">
+            Orientación gratuita sobre trámites, derechos y<br>
+            documentos legales con abogados certificados
+            </p>
+            <div class="info-grid">
+                <div class="info-item">
+                <div class="info-icono">🕐</div>
+                <div><h3>Horario</h3><p>lun-vie 9:00 a 17:00</p></div>
+            </div>
+            <div class="info-item">
+                <div class="info-icono">📍</div>
+                <div><h3>Ubicación</h3><p>Centro Comunitario Norte • 0.8 km</p></div>
+                </div>
+                </div>
+                <button class="btn-solicitar" onclick="abrirModal()">SOLICITAR ASESORÍA</button>
+                <hr>
+                <p class="features">Orientación gratuita ✓ &nbsp; Abogados certificados ✓ &nbsp;
+                Confidencial</p>
+            </div>
+            <a href="Inicio.html" class="volver">← Volver al Inicio</a>
+        </main>
+        <div class="modal" id="modal">
+            <div class="modal-box">
+            <h3>Solicitar Asistencia legal</h3>
+            <p>Cuéntanos brevemente tu caso. Un abogado te contactará.</p>
+            <select id="tipo">
+                <option>Trámites y documentos</option>
+                <option>Derechos laborales</option>
+                <option>Asuntos familiares</option>
+                <option>Otro tema</option>
+            </select>
+            <input type="text" placeholder="Tu nombre (opcional)">
+            <input type="tel" placeholder="Teléfono / WhatsApp para contactarte">
+            <button class="btn-confirmar" onclick="confirmar('Asistencia legal')">Enviar solicitud</
+            button>
+            <button class="btn-cerrar" onclick="cerrarModal()">Cancelar</button>
+            </div>
+        </div>
+        <script>
+            function abrirModal(){document.getElementById('modal').classList.add('open');}
+            function cerrarModal(){document.getElementById('modal').classList.remove('open');}
+            function confirmar(s){alert('✅ Solicitud enviada\nServicio: '+s+'\nTe contactaremos pronto.');cerrarModal();}
+            document.getElementById('modal').addEventListener('click',e=>{if(e.target===e.currentTarget)cerrarModal();});
+        </script>
+    </body>
+</html>
