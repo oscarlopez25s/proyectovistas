@@ -20,13 +20,13 @@
                 <p class="apoyo-titulo">¿Qué tipo de apoyo necesitas?</p>
                 <p class="apoyo-sub">Selecciona todas las que necesites</p>
                 <div id="listaApoyos">
-                    <label class="opcion"><span class="opcion-left"><input type="checkbox" value="Lector de pantalla"><span class="radio-custom"></span>Lector de pantalla</span><span class="flecha"></span></label>
-                    <label class="opcion"><span class="opcion-left"><input type="checkbox" value="Lengua de señas mexicana"><span class="radio-custom"></span>Lengua de señasmexicana</span><span class="flecha"></span></label>
-                    <label class="opcion"><span class="opcion-left"><input type="checkbox" value="Textogrande"><span class="radio-custom"></span>Texto grande</span><span class="flecha"></span></label>
-                    <label class="opcion"><span class="opcion-left"><input type="checkbox" value="Navegación por voz"><span class="radio-custom"></span>Navegación por voz</span><span class="flecha"></span></label>
-                    <label class="opcion"><span class="opcion-left"><input type="checkbox" value="Textoen lenguaje facil"><span class="radio-custom"></span>Texto en lenguaje facil</span><span class="flecha"></span></label>
-                    <label class="opcion"><span class="opcion-left"><input type="checkbox" value="Interprete"><span class="radio-custom"></span>Interprete</span><span class="flecha"></span></label>
-                    <label class="opcion"><span class="opcion-left"><input type="checkbox" value="Ninguna de las anteriores" id="ninguna"><span class="radio-custom"></span>Ninguna de las anteriores</span><span class="flecha"></span></label>
+                    <label class="opcion"><span class="opcion-left"><input type="checkbox" value="1"><span class="radio-custom"></span>Lector de pantalla</span><span class="flecha"></span></label>
+                    <label class="opcion"><span class="opcion-left"><input type="checkbox" value="2"><span class="radio-custom"></span>Lengua de señas mexicana</span><span class="flecha"></span></label>
+                    <label class="opcion"><span class="opcion-left"><input type="checkbox" value="3"><span class="radio-custom"></span>Texto grande</span><span class="flecha"></span></label>
+                    <label class="opcion"><span class="opcion-left"><input type="checkbox" value="4"><span class="radio-custom"></span>Navegación por voz</span><span class="flecha"></span></label>
+                    <label class="opcion"><span class="opcion-left"><input type="checkbox" value="5"><span class="radio-custom"></span>Texto en lenguaje fácil</span><span class="flecha"></span></label>
+                    <label class="opcion"><span class="opcion-left"><input type="checkbox" value="6"><span class="radio-custom"></span>Intérprete</span><span class="flecha"></span></label>
+                    <label class="opcion"><span class="opcion-left"><input type="checkbox" value="7" id="ninguna"><span class="radio-custom"></span>Ninguna de las anteriores</span><span class="flecha"></span></label>
                 </div>
                 <button type="submit" class="btn-registrar">REGISTRARME</button>
             </form>
@@ -55,20 +55,33 @@
             this.closest('.opcion').classList.toggle('seleccionada', this.checked);
             });
             });
-            document.getElementById('formRegistro').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const user = document.getElementById('usuario').value;
-                const seleccionados = [...document.querySelectorAll('.opcion input:checked')].map(c =>
-                c.value);
-                alert('¡Registro listo! ✅\nUsuario: ' + user + '\nApoyos: ' + (seleccionados.length ?
-                seleccionados.join(', ') : 'Ninguno'));
-                });
-            function omitir(e) {
-                e.preventDefault();
-                alert('Registro omitido, puedes configurarlo después en tu perfil.');
-                // Aquí lo mandas a la pantalla principal
-                // window.location.href = 'home.html';
-                }
+            document.getElementById('formRegistro').addEventListener('submit', async function(e) {e.preventDefault();
+            const usuario = document.getElementById('usuario').value;  
+            const password = document.getElementById('password').value;
+            const apoyos = [...document.querySelectorAll('#listaApoyos input:checked')]
+            .map(c => c.value);
+                try {
+            const respuesta = await fetch('registrar.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                usuario: usuario,
+                password: password,
+                apoyos: apoyos
+                })
+            });
+            const resultado = await respuesta.json();
+            alert(resultado.mensaje);
+            if (resultado.success) {
+            window.location.href = 'login.html';
+            }
+            } catch (error) {
+                console.error("Error completo:", error);
+                alert("Error: " + error.message);
+            }
+            });
         </script>
     </body>
 </html>
